@@ -8,7 +8,7 @@ Experience the system in action:
 This system implements an efficient checkout assignment algorithm that:
 
 1. **Dynamically assigns** customers to the checkout counter with the fewest total items
-2. Uses a **min-heap (priority queue)** to always select the optimal counter in O(log n) time
+2. Uses a **min-heap (priority queue)** to add the customer in the optimal counter in O(log n) time
 
 <img src="https://github.com/user-attachments/assets/38e3c34b-6ad5-439e-bd4b-b0bef337857e" width="500" alt="Heap visualization">
 
