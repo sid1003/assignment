@@ -10,10 +10,10 @@ class MinHeap {
   }
 
   extractMin() {
-    if (this.size() === 0) return null;
+    if (this.isEmpty()) return null;
     const min = this.heap[0];
     const last = this.heap.pop();
-    if (this.size() > 0) {
+    if (!this.isEmpty()) {
       this.heap[0] = last;
       this.heapifyDown();
     }
@@ -24,11 +24,8 @@ class MinHeap {
     let index = this.size() - 1;
     while (index > 0) {
       const parentIndex = Math.floor((index - 1) / 2);
-      if (this.comparator(this.heap[index], this.heap[parentIndex])) {
-        [this.heap[index], this.heap[parentIndex]] = [
-          this.heap[parentIndex],
-          this.heap[index],
-        ];
+      if (this.compare(index, parentIndex)) {
+        this.swap(index, parentIndex);
         index = parentIndex;
       } else break;
     }
@@ -40,23 +37,14 @@ class MinHeap {
       const left = 2 * index + 1;
       const right = 2 * index + 2;
       let smallest = index;
-      if (
-        left < this.size() &&
-        this.comparator(this.heap[left], this.heap[smallest])
-      ) {
+      if (left < this.size() && this.compare(left, smallest)) {
         smallest = left;
       }
-      if (
-        right < this.size() &&
-        this.comparator(this.heap[right], this.heap[smallest])
-      ) {
+      if (right < this.size() && this.compare(right, smallest)) {
         smallest = right;
       }
       if (smallest !== index) {
-        [this.heap[index], this.heap[smallest]] = [
-          this.heap[smallest],
-          this.heap[index],
-        ];
+        this.swap(index, smallest);
         index = smallest;
       } else break;
     }
@@ -64,6 +52,18 @@ class MinHeap {
 
   size() {
     return this.heap.length;
+  }
+
+  isEmpty() {
+    return this.size() === 0;
+  }
+
+  swap(i, j) {
+    [this.heap[i], this.heap[j]] = [this.heap[j], this.heap[i]];
+  }
+
+  compare(i, j) {
+    return this.comparator(this.heap[i], this.heap[j]);
   }
 }
 
@@ -155,16 +155,6 @@ class CheckoutSystem {
     this.updateCheckoutUI(checkoutIndex);
   }
 
-  highlightCheckout(index) {
-    const checkoutDiv = document.getElementById(`checkout-${index}`);
-    checkoutDiv.classList.add('highlight');
-    
-    // Remove highlight after 1 second
-    setTimeout(() => {
-        checkoutDiv.classList.remove('highlight');
-    }, 1000);
-}
-
   updateCheckoutUI(index) {
     const queue = this.checkouts[index];
     const checkoutDiv = document.getElementById(`checkout-${index}`);
@@ -173,13 +163,13 @@ class CheckoutSystem {
     const totalItems = checkoutDiv.querySelector(".total-items");
 
     for (let i = this.renderedItemCounts[index]; i < queue.length; i++) {
-        const itemDiv = document.createElement("div");
-        itemDiv.className = "customer-item";
-        itemDiv.innerHTML = `
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "customer-item";
+      itemDiv.innerHTML = `
             <i class="fa-solid fa-cart-shopping"></i>
             <span class="item-count">${queue[i]} item${queue[i] !== 1 ? 's' : ''}</span>
         `;
-        itemsList.appendChild(itemDiv);
+      itemsList.appendChild(itemDiv);
     }
 
     // Update rendered item count
