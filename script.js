@@ -1,5 +1,3 @@
-// script.js - Hypermarket Checkout System with Min-Heap Optimization
-
 class MinHeap {
   constructor(comparator) {
     this.heap = [];
@@ -71,9 +69,8 @@ class MinHeap {
 
 class CheckoutSystem {
   constructor(numCheckouts = 3) {
-    this.checkouts = Array(numCheckouts)
-      .fill()
-      .map(() => []);
+    this.checkouts = Array(numCheckouts).fill().map(() => []);
+    this.renderedItemCounts = Array(numCheckouts).fill(0);
     this.heap = new MinHeap(
       (a, b) =>
         a.totalItems < b.totalItems ||
@@ -175,30 +172,25 @@ class CheckoutSystem {
     const customerCount = checkoutDiv.querySelector(".customer-count");
     const totalItems = checkoutDiv.querySelector(".total-items");
 
-    // Clear and rebuild items list
-    itemsList.innerHTML = "";
-    queue.forEach((item) => {
-      const itemDiv = document.createElement("div");
-      itemDiv.className = "customer-item";
-      itemDiv.innerHTML = `
-        <i class="fa-solid fa-cart-shopping"></i>
-        <span class="item-count">${item} item${item !== 1 ? 's' : ''}</span>
+    for (let i = this.renderedItemCounts[index]; i < queue.length; i++) {
+        const itemDiv = document.createElement("div");
+        itemDiv.className = "customer-item";
+        itemDiv.innerHTML = `
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="item-count">${queue[i]} item${queue[i] !== 1 ? 's' : ''}</span>
         `;
-      itemsList.appendChild(itemDiv);
-    });
+        itemsList.appendChild(itemDiv);
+    }
 
-    // Update counters
-    customerCount.textContent = `${queue.length} customer${
-      queue.length !== 1 ? "s" : ""
-    }`;
-    totalItems.textContent = `Total items: ${queue.reduce(
-      (sum, item) => sum + item,
-      0
-    )}`;
+    // Update rendered item count
+    this.renderedItemCounts[index] = queue.length;
+
+    // Update customer count and total items
+    customerCount.innerHTML = `<i class="fa-solid fa-users"></i> ${queue.length} customer${queue.length !== 1 ? "s" : ""}`;
+    totalItems.textContent = `Total items: ${queue.reduce((sum, item) => sum + item, 0)}`;
   }
 }
 
-// Initialize the system with 3 checkouts (default)
 document.addEventListener("DOMContentLoaded", () => {
-  const checkoutSystem = new CheckoutSystem(3);
+  const checkoutSystem = new CheckoutSystem(5);
 });
