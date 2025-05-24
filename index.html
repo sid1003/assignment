@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hypermart Checkout System</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 
 <body>
@@ -15,12 +15,17 @@
             <h1>Hypermart Checkout System</h1>
             <h4>Real-time queue management system</h4>
         </div>
-        <div class="input-section">
-            <input type="number" id="itemCount" min="1" placeholder="Enter number of items" />
-            <button id="addCustomer">Checkout items</button>
+        <div id="setup-screen">
+            <input type="number" id="counterCount" min="1" placeholder="Enter number of counters" />
+            <button id="startSystem">Start System</button>
         </div>
-
-        <div class="checkout-section" id="checkouts">
+        <div id="checkout-screen">
+            <div class="input-section">
+                <input type="number" id="itemCount" min="1" placeholder="Enter number of items" />
+                <button id="addCustomer">Checkout items</button>
+            </div>
+            <div class="checkout-section" id="checkouts"></div>
+            <div class="checkout-section" id="checkouts"></div>
         </div>
     </div>
 

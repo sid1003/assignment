@@ -182,5 +182,31 @@ class CheckoutSystem {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const checkoutSystem = new CheckoutSystem(3);
+//   const checkoutSystem = new CheckoutSystem(4);
+  const setupScreen = document.getElementById("setup-screen");
+  const checkoutScreen = document.getElementById("checkout-screen");
+  let checkoutSystem;
+
+  document.getElementById("startSystem").addEventListener("click", () => {
+    const counterCount = parseInt(document.getElementById("counterCount").value);
+
+    if (counterCount >= 1) {
+        console.log("hsddadf");
+        
+      // Hide setup screen, show checkout screen
+      setupScreen.style.display = "none";
+      checkoutScreen.style.display = "block";
+      
+      // Initialize the system
+      checkoutSystem = new CheckoutSystem(counterCount);
+    } else {
+      alert("Please enter a valid number (at least 1)");
+    }
+  });
+
+  document.getElementById("counterCount").addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        document.getElementById("startSystem").click();
+      }
+  });
 });
