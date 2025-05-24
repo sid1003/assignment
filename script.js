@@ -192,5 +192,5 @@ class CheckoutSystem {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const checkoutSystem = new CheckoutSystem(5);
+  const checkoutSystem = new CheckoutSystem(3);
 });
